@@ -1,0 +1,37 @@
+{
+  "name": "react-native-layit",
+  "version": "0.0.1",
+  "description": "A layout library for react native to help position components cleanly and in an expressive way",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flamerohr/react-native-layit.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "layout",
+    "layit",
+    "row",
+    "column",
+    "flex"
+  ],
+  "author": "Christopher Joe <flamer.ohr@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/flamerohr/react-native-layit/issues"
+  },
+  "homepage": "https://github.com/flamerohr/react-native-layit#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^22.1.2"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-native": "^0.52.0"
+  }
+}
