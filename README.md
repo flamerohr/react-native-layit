@@ -24,10 +24,8 @@ yarn add react-native-layit
 
 ```js
 import React from 'react';
-import { Text } from 'react-native';
-import { provideLayout } from 'react-native-layit';
-
-const View = provideLayout();
+import { View, Text } from 'react-native';
+import Layit from 'react-native-layit';
 
 const Box = ({ style }) => (
   <View style={[
@@ -40,22 +38,22 @@ const Box = ({ style }) => (
 );
 
 export default () => (
-  <View>
+  <Layit>
     <Box style={{ backgroundColor: 'red' }} />
     <Box style={{ backgroundColor: 'blue' }} />
     <Box style={{ backgroundColor: 'green' }} />
-  </View>
+  </Layit>
 );
 ```
 
-But wait... couldn't I get the same by importing `View` from `react-native`?
+But wait... couldn't I get the same by importing `View` from `react-native`? I don't see anything different.
 
-Why yes you can! `provideLayout()` acts as wrapper which tries to be as un-intrusive as possible.
-It can also be used as a Higher-order component.
+Why yes you can! The `Layit` component acts as wrapper for `View` and tries to be as un-intrusive as possible.
+There is also a Higher-order component available for wrapping other component types.
 
 Now, let's get to what this library is for.
 
-Say we wanted things to align horizontally instead of vertically, we can do this without the library.
+Say we wanted things to align horizontally instead of vertically, we can do this without `Layit`.
 
 ```js
 export default () => (
@@ -67,22 +65,22 @@ export default () => (
 );
 ```
 
-or with `provideLayout()`.
+or with `Layit`.
 
 ```js
 export default () => (
-  <View row margin={[20, 20, 5, 10]}>
+  <Layit row margin={[20, 20, 5, 10]}>
     <Box style={{ backgroundColor: 'red' }} />
     <Box style={{ backgroundColor: 'blue' }} />
     <Box style={{ backgroundColor: 'green' }} />
-  </View>
+  </Layit>
 );
 ```
 
-The layout (I've included `margin` and `padding` as "layout") styles are props and can be utilised cleanly without the need to mangle with the `style` prop.
+The layout styles are props and can be utilised cleanly without the need to mangle with the `style` prop.
 
-The style prop is passed through as it is normally, so you can use as much of the API available as you feel comfortable.
-The style prop will override the layout props, if both are defined.
+The style prop is passed through it is normally, so you can use as much of the API available as you feel comfortable.
+The style prop will override the layout props, if both are defined. So becareful.
 
 ```js
 export default () => (
@@ -94,15 +92,17 @@ export default () => (
 );
 ```
 
-So the above will use `column` instead of `row` defined
+The above will use `column` instead of `row` for `flexDirection` in the end.
 
-## Wrapping other components
+## Applying this to other components
 
-As mentioned earlier, `provideLayout()` can be used as a Higher-order component, that means it's easy to use another component instead of `View` from `react-native`.
+As mentioned earlier, there is also a Higher-order component available, that means it's easy to use another component instead of `View`.
 
 Perhaps you have a button that has been styled with `styled-components`, or a panel which has some default padding, use `provideLayout()` to wrap those components.
 
 ```js
+import { provideLayout } from 'react-native-layit';
+
 export default provideLayout(SuccessButtonComponent);
 ```
 
@@ -125,16 +125,16 @@ Here is a list of available props for the layout
 
 ## Styles take precedence
 
-If there's a `style` prop which has a rule conflicting with a layout prop, it will take precendence. This also follows on about the `viewProps`, if viewProps contains a style and there's also a style prop, the viewProps style will take precedence.
+If there's a `style` prop which has a rule conflicting with a layout prop, the style will take precendence. This also applies for `viewProps`, if viewProps contains a style property and there's also a style prop, the viewProps style will take precedence.
 
 So the hierarchy goes like this
 ```
  viewProps.style > style > layoutProps
 ```
 
-In order to not have styles overwriting the layoutProps, you could look at shifting those styles down and become wrapped by `provideLayout()`. Try to keep `provideLayout()` at the very top of the stack of wrappers, if possible.
+In order to not have styles overwriting the layoutProps, you should look at shifting those styles into another component which is wrapped by `provideLayout()`. Try to keep `provideLayout()` at the very top of the stack of wrappers, if possible.
 
-This behaviour is to allow switching between different stylesheets seemlessly for a component without worrying about conflicts from this library.
+This behaviour is to allow switching between different stylesheets seemlessly for a component without unexpected "it's not changing" scenarios and worrying about overwrites from this library.
 
 For example
 
