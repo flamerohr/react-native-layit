@@ -50,11 +50,11 @@ export default function provideLayout(View = RNView) {
       return null;
     }
 
-    get margin() {
+    get margins() {
       return calculate('margin', this.props.margin);
     }
 
-    get padding() {
+    get paddings() {
       return calculate('padding', this.props.padding);
     }
 
@@ -74,11 +74,11 @@ export default function provideLayout(View = RNView) {
       const layout = {};
 
       if (margin) {
-        Object.assign(layout, this.margin);
+        Object.assign(layout, this.margins);
       }
 
       if (padding) {
-        Object.assign(layout, this.padding);
+        Object.assign(layout, this.paddings);
       }
 
       if (flex !== null) {
@@ -89,7 +89,7 @@ export default function provideLayout(View = RNView) {
         layout.flexDirection = this.flexDirection;
       }
 
-      return <View {...props} {...viewProps} style={[layout, viewProps.style, style]} />;
+      return <View {...props} {...viewProps} style={[layout, style, viewProps.style]} />;
     }
   };
 }

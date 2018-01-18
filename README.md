@@ -121,7 +121,49 @@ Here is a list of available props for the layout
 | flex | boolean/number | | Sets style `flex: ${number}`, will convert `false` to `0` and `true` to `1` |
 | margin | number/array[number] | | Sets margin for top, bottom, left and right. Follows CSS rules for `margin` |
 | padding | number/array[number] | | Sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
-| viewProps | object | `{}` | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them |
+| viewProps | object | `{}` | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them. Props declared here take precedence over "pass through" props |
+
+## Styles take precedence
+
+If there's a `style` prop which has a rule conflicting with a layout prop, it will take precendence. This also follows on about the `viewProps`, if viewProps contains a style and there's also a style prop, the viewProps style will take precedence.
+
+So the hierarchy goes like this
+```
+ viewProps.style > style > layoutProps
+```
+
+In order to not have styles overwriting the layoutProps, you could look at shifting those styles down and become wrapped by `provideLayout()`. Try to keep `provideLayout()` at the very top of the stack of wrappers, if possible.
+
+This behaviour is to allow switching between different stylesheets seemlessly for a component without worrying about conflicts from this library.
+
+For example
+
+```js
+const props = {
+  margin: [1, 1, 1, 1],
+  style: {
+    marginBottom: 2,
+    marginLeft: 2,
+  },
+  viewProps: {
+    style: {
+      marginLeft: 3,
+      marginRight: 4,
+    },
+  },
+};
+```
+
+Will produce the following styles
+
+```js
+const flattenedStyles = {
+  marginTop: 1,
+  marginBottom: 2,
+  marginLeft: 3,
+  marginRight: 4,
+};
+```
 
 ## Wrapper for styles
 

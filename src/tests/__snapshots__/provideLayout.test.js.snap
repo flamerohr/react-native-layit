@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`provideLayout style that hierarchy for styles go: viewProps.style > style > layoutProps 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 2,
+      "marginLeft": 3,
+      "marginRight": 4,
+      "marginTop": 1,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    Hierarchy checks out
+  </Text>
+</View>
+`;
+
+exports[`provideLayout style that style is not ignored 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "red",
+      "marginTop": 10,
+      "paddingBottom": 20,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    Styles are used
+  </Text>
+</View>
+`;
+
+exports[`provideLayout style that viewProps.style is not ignored 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "red",
+      "marginTop": 10,
+      "paddingBottom": 20,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    ViewProps.styles are used
+  </Text>
+</View>
+`;
+
+exports[`provideLayout viewProps that unused props are passed through 1`] = `
+<View
+  DoNotUse="abc"
+  id="def"
+  name="Bob"
+  style={
+    Array [
+      Object {},
+      null,
+      undefined,
+    ]
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    Unused passed through
+  </Text>
+</View>
+`;
+
+exports[`provideLayout viewProps that viewProps are spread through 1`] = `
+<View
+  DoNotUse="abc"
+  id="def"
+  name="Bob"
+  style={
+    Array [
+      Object {},
+      null,
+      undefined,
+    ]
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    ViewProps passed through
+  </Text>
+</View>
+`;
+
+exports[`provideLayout viewProps that viewProps take precedence over pass through props 1`] = `
+<View
+  DoNotUse="abc"
+  id="def"
+  name="Bob"
+  style={
+    Array [
+      Object {},
+      null,
+      undefined,
+    ]
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    ViewProps took precendence over passed through
+  </Text>
+</View>
+`;

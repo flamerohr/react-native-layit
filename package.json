@@ -4,7 +4,8 @@
   "description": "A layout library for react native to help position components cleanly and in an expressive way",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "peerinstall": "yarn add -P --no-lockfile $(node -e \"process.stdout.write(String(Object.entries(require('./package.json').peerDependencies).map(d => d.join('@')).join(' ')))\")"
   },
   "repository": {
     "type": "git",
@@ -27,11 +28,15 @@
   "homepage": "https://github.com/flamerohr/react-native-layit#readme",
   "dependencies": {},
   "devDependencies": {
-    "jest": "^22.1.2"
+    "jest": "^22.1.2",
+    "jest-react-native": "^18.0.0"
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-native": "^0.52.0"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }
