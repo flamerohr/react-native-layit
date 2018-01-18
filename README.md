@@ -1,4 +1,4 @@
-# Layout library for react-native
+# Layit - Layout library for react-native
 
 This library is inspired by [styled-components](https://www.styled-components.com/docs/basics#react-native) and [react-native-row](https://github.com/hyrwork/react-native-row), so thank you to the contributors and maintainers of those libraries.
 
@@ -7,8 +7,6 @@ Layit offers many of the powerful layout properties which `react-native-row` off
 Layout should be expressive and clear at a glance, it doesn't help that most of the time layout is mixed with other styles like colour and animations making discovery for them non-obvious.
 
 Following the philosophy of `react-native-row`, this library helps keep unnecessary stylesheet declarations that are involved with layout and position.
-
-# Layit
 
 ## Installation
 
@@ -121,9 +119,9 @@ Here is a list of available props for the layout
 | col | boolean/number | false | Sets style `flexDirection: 'column'` |
 | reverse | boolean | false | Reverses the direction of `row` or `col` making the style `flexDirection: 'row-reverse'` or `flexDirection: 'column-reverse'` respectively, so will need one of those enabled to work |
 | flex | boolean/number | | Sets style `flex: ${number}`, will convert `false` to `0` and `true` to `1` |
-| margin | number/array[number] | sets margin for top, bottom, left and right. Follows CSS rules for `margin` |
-| padding | number/array[number] | sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
-| viewProps | object | `{}` | a set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them |
+| margin | number/array[number] | | Sets margin for top, bottom, left and right. Follows CSS rules for `margin` |
+| padding | number/array[number] | | Sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
+| viewProps | object | `{}` | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them |
 
 ## Wrapper for styles
 
