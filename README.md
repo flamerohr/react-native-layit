@@ -94,7 +94,7 @@ export default () => (
 
 The above will use `column` instead of `row` for `flexDirection` in the end.
 
-## Applying this to other components
+## Applying to other components
 
 As mentioned earlier, there is also a Higher-order component available, that means it's easy to use another component instead of `View`.
 
@@ -106,8 +106,28 @@ import { provideLayout } from 'react-native-layit';
 export default provideLayout(SuccessButtonComponent);
 ```
 
-Any style or layout props used will override the button's style.
-So that means if `SuccessButtonComponent` has a `flexDirection: 'column'` and you use the `row` property, the button will have `flexDirection: 'row'` in the end.
+Any style or layout props used will override the button's style are passed through the `style` prop to `SuccessButtonComponent`.
+In there you'll need to make sure it is received by the correct component.
+
+```js
+const SuccessButtonComponent = (props) => {
+  const myStyles = {
+    // style logic here
+    flexDirection: 'column',
+    backgroundColor: 'green',
+  };
+  return (
+    <View style={[myStyles, props.style]}>
+      <Text>It's a success!</Text>
+      <Text>Lets have fun.</Text>
+    </View>
+  );
+};
+```
+
+The above has the `style` prop provided take precendence over its own defined style, that means the `flexDirection: 'column'` could be changed to to `flexDirection: 'row'` by using the `row` property.
+
+You could have it the other way round, but only it cases where you don't want any specific property to change.
 
 ## Layout properties
 
