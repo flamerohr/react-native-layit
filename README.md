@@ -22,7 +22,7 @@ yarn add react-native-layit
 
 ## Basic Usage
 
-```js
+```jsx
 import React from 'react';
 import { View, Text } from 'react-native';
 import Layit from 'react-native-layit';
@@ -55,7 +55,7 @@ Now, let's get to what this library is for.
 
 Say we wanted things to align horizontally instead of vertically, we can do this without `Layit`.
 
-```js
+```jsx
 export default () => (
   <View style={{ flexDirection: 'row', marginTop: 20, marginLeft: 10, marginBottom: 5, marginRight: 20 }}>
     <Box style={{ backgroundColor: 'red' }} />
@@ -67,7 +67,7 @@ export default () => (
 
 or with `Layit`.
 
-```js
+```jsx
 export default () => (
   <Layit row margin={[20, 20, 5, 10]}>
     <Box style={{ backgroundColor: 'red' }} />
@@ -82,7 +82,7 @@ The layout styles are props and can be utilised cleanly without the need to mang
 The style prop is passed through it is normally, so you can use as much of the API available as you feel comfortable.
 The style prop will override the layout props, if both are defined. So becareful.
 
-```js
+```jsx
 export default () => (
   <View style={{ flexDirection: 'column' }} row margin={[20, 20, 5, 10]}>
     <Box style={{ backgroundColor: 'red' }} />
@@ -109,7 +109,7 @@ export default provideLayout(SuccessButtonComponent);
 Any style or layout props used will override the button's style are passed through the `style` prop to `SuccessButtonComponent`.
 In there you'll need to make sure it is received by the correct component.
 
-```js
+```jsx
 const SuccessButtonComponent = (props) => {
   const myStyles = {
     // style logic here
