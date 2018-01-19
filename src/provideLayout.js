@@ -7,9 +7,9 @@ export default function provideLayout(View = RNView) {
   return class Layit extends PureComponent {
     static propTypes = {
       style: ViewPropTypes.style,
-      flex: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
       margin: gapsPropTypes,
       padding: gapsPropTypes,
+      flex: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
       row: PropTypes.bool,
       col: PropTypes.bool,
       reverse: PropTypes.bool,
@@ -18,14 +18,32 @@ export default function provideLayout(View = RNView) {
 
     static defaultProps = {
       style: null,
+      margin: null,
+      padding: null,
       flex: null,
       row: false,
       col: false,
       reverse: false,
-      margin: null,
-      padding: null,
       viewProps: {},
     };
+
+    get flexStyles() {
+      const {
+        flex,
+        flexDirection,
+      } = this;
+      const flexStyles = {};
+
+      if (flex !== null) {
+        Object.assign(flexStyles, { flex });
+      }
+
+      if (flexDirection) {
+        Object.assign(flexStyles, { flexDirection });
+      }
+
+      return flexStyles;
+    }
 
     get flex() {
       const { flex } = this.props;
@@ -61,33 +79,21 @@ export default function provideLayout(View = RNView) {
     render() {
       const {
         style,
+        margin,
+        padding,
         flex,
         row,
         col,
         reverse,
-        margin,
-        padding,
         viewProps,
         ...props
       } = this.props;
 
-      const layout = {};
-
-      if (margin) {
-        Object.assign(layout, this.margins);
-      }
-
-      if (padding) {
-        Object.assign(layout, this.paddings);
-      }
-
-      if (flex !== null) {
-        layout.flex = this.flex;
-      }
-
-      if (row || col) {
-        layout.flexDirection = this.flexDirection;
-      }
+      const layout = {
+        ...this.margins,
+        ...this.paddings,
+        ...this.flexStyles,
+      };
 
       return <View {...props} {...viewProps} style={[layout, style, viewProps.style]} />;
     }
