@@ -79,7 +79,7 @@ export default () => (
 
 The layout styles are props and can be utilised cleanly without the need to mangle with the `style` prop.
 
-The style prop is passed through it is normally, so you can use as much of the API available as you feel comfortable.
+The style prop will pass through and applied normally, so you can use as much of the API available as you feel comfortable.
 The style prop will override the layout props, if both are defined. So becareful.
 
 ```jsx
@@ -92,7 +92,7 @@ export default () => (
 );
 ```
 
-The above will use `column` instead of `row` for `flexDirection` in the end.
+The above will use `column` instead of `row` for `flexDirection` in the end. If you'd like style prop to be overridden by the layout props continue reading.
 
 ## Applying to other components
 
@@ -106,8 +106,9 @@ import { provideLayout } from 'react-native-layit';
 export default provideLayout(SuccessButtonComponent);
 ```
 
-Any style or layout props used will override the button's style are passed through the `style` prop to `SuccessButtonComponent`.
-In there you'll need to make sure it is received by the correct component.
+Any style or layout props used will be passed to `SuccessButtonComponent` through the `style` prop. You'll need to make sure it is continued down the child component you wish the layout props to be applied to.
+
+For example below.
 
 ```jsx
 const SuccessButtonComponent = (props) => {
@@ -125,9 +126,9 @@ const SuccessButtonComponent = (props) => {
 };
 ```
 
-The above has the `style` prop provided take precendence over its own defined style, that means the `flexDirection: 'column'` could be changed to to `flexDirection: 'row'` by using the `row` property.
+The example has the `style` prop provided take precendence over its own defined style, that means the `flexDirection: 'column'` could be changed to to `flexDirection: 'row'` by using the `row` property.
 
-You could have it the other way round, but only it cases where you don't want any specific property to change.
+You could have it the other way round, but only it cases where you don't want any specific property to change, so if it was flipped in the example to `[props.style, myStyles]` then `SuccessButtonComponent` will always have `flexDirection: 'column'` even if the `row` property was used.
 
 ## Layout properties
 
