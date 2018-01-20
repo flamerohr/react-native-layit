@@ -63,8 +63,6 @@ export default function provideLayout(View = RNView) {
 
       if (flex !== null) {
         Object.assign(flexStyles, { flex });
-      } else if (justifyContent && alignItems) {
-        Object.assign(flexStyles, { flex: 1 });
       }
 
       return flexStyles;
