@@ -22,8 +22,8 @@ export default function provideLayout(View = RNView) {
       row: PropTypes.bool,
       col: PropTypes.bool,
       reverse: PropTypes.bool,
-      xAlign: alignProps,
-      yAlign: alignProps,
+      alignX: alignProps,
+      alignY: alignProps,
       viewProps: PropTypes.object,
     };
 
@@ -35,8 +35,8 @@ export default function provideLayout(View = RNView) {
       row: false,
       col: false,
       reverse: false,
-      xAlign: null,
-      yAlign: null,
+      alignX: null,
+      alignY: null,
       viewProps: {},
     };
 
@@ -113,15 +113,15 @@ export default function provideLayout(View = RNView) {
       const {
         row,
         col,
-        xAlign,
-        yAlign,
+        alignX,
+        alignY,
       } = this.props;
 
       if (!row && !col) {
         return null;
       }
 
-      const alignProp = (row === justified) ? xAlign : yAlign;
+      const alignProp = (row === justified) ? alignX : alignY;
       const unsupported = 'center';
 
       if (justified && ['stretch'].includes(alignProp)) {
@@ -144,8 +144,8 @@ export default function provideLayout(View = RNView) {
         row,
         col,
         reverse,
-        xAlign,
-        yAlign,
+        alignX,
+        alignY,
         viewProps,
         ...props
       } = this.props;
