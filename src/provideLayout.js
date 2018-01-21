@@ -13,6 +13,10 @@ export default function provideLayout(View = RNView) {
       row: PropTypes.bool,
       col: PropTypes.bool,
       reverse: PropTypes.bool,
+      dial: PropTypes.number,
+      spaceAround: PropTypes.bool,
+      spaceBetween: PropTypes.bool,
+      stretch: PropTypes.bool,
       viewProps: PropTypes.object,
     };
 
@@ -24,6 +28,10 @@ export default function provideLayout(View = RNView) {
       row: false,
       col: false,
       reverse: false,
+      dial: null,
+      spaceAround: false,
+      spaceBetween: false,
+      stretch: false,
       viewProps: {},
     };
 
@@ -31,6 +39,8 @@ export default function provideLayout(View = RNView) {
       const {
         flex,
         flexDirection,
+        justifyContent,
+        alignItems,
       } = this;
       const flexStyles = {};
 
@@ -40,6 +50,14 @@ export default function provideLayout(View = RNView) {
 
       if (flexDirection) {
         Object.assign(flexStyles, { flexDirection });
+      }
+
+      if (justifyContent) {
+        Object.assign(flexStyles, { justifyContent });
+      }
+
+      if (alignItems) {
+        Object.assign(flexStyles, { alignItems });
       }
 
       return flexStyles;
@@ -68,12 +86,69 @@ export default function provideLayout(View = RNView) {
       return null;
     }
 
+    get justifyContent() {
+      const { row, spaceAround, spaceBetween } = this.props;
+
+      if (spaceAround) {
+        return 'space-around';
+      }
+      if (spaceBetween) {
+        return 'space-between';
+      }
+      if (!this.validDial) {
+        return null;
+      }
+
+      return this.offset(row);
+    }
+
+    get alignItems() {
+      const { col, stretch } = this.props;
+
+      if (stretch) {
+        return 'stretch';
+      }
+      if (!this.validDial) {
+        return null;
+      }
+
+      return this.offset(col);
+    }
+
+    get validDial() {
+      const {
+        row,
+        col,
+        dial,
+      } = this.props;
+
+      return (
+        // needs a direction
+        (row || col) &&
+        // needs a placement
+        (dial && dial <= 9 && dial >= 1)
+      );
+    }
+
     get margins() {
       return calculate('margin', this.props.margin);
     }
 
     get paddings() {
       return calculate('padding', this.props.padding);
+    }
+
+    offset(horizontal) {
+      const { dial } = this.props;
+      const index = horizontal ? dial % 3 : Math.floor(dial / 3);
+
+      if (index === 0) {
+        return 'flex-end';
+      }
+      if (index === 1) {
+        return 'flex-start';
+      }
+      return 'center';
     }
 
     render() {
@@ -85,6 +160,10 @@ export default function provideLayout(View = RNView) {
         row,
         col,
         reverse,
+        dial,
+        spaceAround,
+        spaceBetween,
+        stretch,
         viewProps,
         ...props
       } = this.props;
