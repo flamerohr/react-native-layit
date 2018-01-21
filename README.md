@@ -137,9 +137,9 @@ Here is a list of available props for the layout
 | Prop | Type | Default | Description |
 | --- | :---: | :---: | --- |
 | `flex` | boolean/number | | Sets style `flex: ${number}`, will convert `false` to `0` and `true` to `1` |
-| `row` | boolean/number | false | Sets style `flexDirection: 'row'`, this take precedence over the `col` prop below |
-| `col` | boolean/number | false | Sets style `flexDirection: 'column'` |
-| `reverse` | boolean | false | Reverses the direction of `row` or `col` making the style `flexDirection: 'row-reverse'` or `flexDirection: 'column-reverse'` respectively, so will need one of those enabled to work |
+| `row` | boolean/number | `false` | Sets style `flexDirection: 'row'`, this take precedence over the `col` prop if both are `true` |
+| `col` | boolean/number | `false` | Sets style `flexDirection: 'column'` |
+| `reverse` | boolean | `false` | Reverses the direction of `row` or `col` making the style `flexDirection: 'row-reverse'` or `flexDirection: 'column-reverse'` respectively, so will need one of those enabled to work |
 | `alignX` | enum | | Sets either `justifyContent` for `row` or `alignItems` for `col` with the enum value. If neither `row` or `col` is defined this prop will not take effect |
 | `alignY` | enum | | Same with `alignX` but sets `justifyContent` for col or `alignItems` for `row` |
 | `margin` | number/array[number] | | Sets margin for top, bottom, left and right. Follows CSS rules for `margin` |

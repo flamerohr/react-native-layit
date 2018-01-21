@@ -77,14 +77,27 @@ export default function provideLayout(View = RNView) {
       return flex;
     }
 
+    get isRow() {
+      const { row } = this.props;
+
+      return row;
+    }
+
+    get isCol() {
+      const { row, col } = this.props;
+
+      // row takes precedence if both row and col are true
+      return !row && col;
+    }
+
     get flexDirection() {
-      const { row, col, reverse } = this.props;
+      const { reverse } = this.props;
       const reversing = reverse ? '-reverse' : '';
 
-      if (row) {
+      if (this.isRow) {
         return `row${reversing}`;
       }
-      if (col) {
+      if (this.isCol) {
         return `column${reversing}`;
       }
 
@@ -109,18 +122,19 @@ export default function provideLayout(View = RNView) {
 
     getAlignment(justified) {
       const {
-        row,
-        col,
         alignX,
         alignY,
       } = this.props;
 
-      if (!row && !col) {
-        return null;
-      }
-
-      const alignProp = (row === justified) ? alignX : alignY;
       const unsupported = 'center';
+
+      let alignProp = null;
+      if ((this.isRow && justified) || (this.isCol && !justified)) {
+        alignProp = alignX;
+      }
+      if ((this.isCol && justified) || (this.isRow && !justified)) {
+        alignProp = alignY;
+      }
 
       if (justified && ['stretch'].includes(alignProp)) {
         return unsupported;
