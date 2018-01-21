@@ -152,14 +152,14 @@ Here is a list of available props for the layout
 
  Important to note again that if neither `row` or `col` is defined these props will not take effect, that's because the library cannot tell which direction the flex is running otherwise.
 
-| enum values     | `row`+`alignX` | `row`+`alignY` | `col`+`alignX` | `col`+`alignY` |
-| --------------- | :------------: | :------------: | :------------: | :------------: |
-| `flex-start`    |                |                |                |                |
-| `center`        |                |                |                |                |
-| `flex-end`      |                |                |                |                |
-| `space-around`  |                |     invalid    |     invalid    |                |
-| `space-between` |                |     invalid    |     invalid    |                |
-| `stretch`       |     invalid    |                |                |     invalid    |
+| enum values     |  `row`+`alignX` |  `row`+`alignY` |  `col`+`alignX` |  `col`+`alignY` |
+| --------------- | :-------------: | :-------------: | :-------------: | :-------------: |
+| `flex-start`    |                 |                 |                 |                 |
+| `center`        |                 |                 |                 |                 |
+| `flex-end`      |                 |                 |                 |                 |
+| `space-around`  |                 | :no_entry_sign: | :no_entry_sign: |                 |
+| `space-between` |                 | :no_entry_sign: | :no_entry_sign: |                 |
+| `stretch`       | :no_entry_sign: |                 |                 | :no_entry_sign: |
 
 ## Styles take precedence
 
