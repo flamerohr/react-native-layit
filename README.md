@@ -146,7 +146,11 @@ Here is a list of available props for the layout
 | `padding` | number/array[number] | | Sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
 | `viewProps` | object | `{}` | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them. Props declared here take precedence over "pass through" props |
 
-For `alignX` and `alignY`, there is a table for reference when an enum value is invalid, if the value provided is invalid `center` is used instead.
+ ### Using `alignX` and `alignY`
+
+ Here is a table for reference when an enum value is invalid in which case `center` is used instead.
+
+ Important to note again that if neither `row` or `col` is defined these props will not take effect, that's because the library cannot tell which direction the flex is running otherwise.
 
 | enum values     | `row`+`alignX` | `row`+`alignY` | `col`+`alignX` | `col`+`alignY` |
 | --------------- | :------------: | :------------: | :------------: | :------------: |
