@@ -1,5 +1,8 @@
 # Layit - Layout library for react-native
 
+[![Build Status](https://travis-ci.org/flamerohr/react-native-layit.svg?branch=master)](https://travis-ci.org/flamerohr/react-native-layit)
+[![codecov](https://codecov.io/gh/flamerohr/react-native-layit/branch/master/graph/badge.svg)](https://codecov.io/gh/flamerohr/react-native-layit)
+
 This library is inspired by [styled-components](https://www.styled-components.com/docs/basics#react-native) and [react-native-row](https://github.com/hyrwork/react-native-row), so thank you to the contributors and maintainers of those libraries.
 
 Layit is a layout library for react native to help position components cleanly and in an expressive way.
