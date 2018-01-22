@@ -127,12 +127,41 @@ describe('provideLayout', () => {
     });
   });
 
-  describe('calculate layout', () => {
+  describe('flexStyles', () => {
     let instance = null;
-
-    beforeEach(() => {
+    const reset = () => {
       Layout = provideLayout();
       instance = new Layout({});
+    };
+
+    beforeEach(reset);
+
+    test('should be empty by default', () => {
+      instance.flex = null;
+      instance.flexDirection = null;
+      instance.justifyContent = null;
+      instance.alignItems = null;
+
+      expect(instance.flexStyles).toEqual({});
+    });
+
+    test('should provide the style when it is in the props', () => {
+      instance.props.flex = 1;
+      expect(instance.flexStyles).toEqual({ flex: 1 });
+
+      reset();
+      instance.props.row = true;
+      expect(instance.flexStyles).toEqual({ flexDirection: 'row' });
+
+      reset();
+      instance.props.row = true;
+      instance.props.alignX = 'center';
+      expect(instance.flexStyles).toEqual({ flexDirection: 'row', justifyContent: 'center' });
+
+      reset();
+      instance.props.row = true;
+      instance.props.alignY = 'center';
+      expect(instance.flexStyles).toEqual({ flexDirection: 'row', alignItems: 'center' });
     });
 
     describe('flex', () => {
