@@ -127,17 +127,49 @@ describe('provideLayout', () => {
     });
   });
 
-  describe('calculate layout', () => {
+  describe('flexStyles', () => {
     let instance = null;
-
-    beforeEach(() => {
+    const reset = () => {
       Layout = provideLayout();
       instance = new Layout({});
+    };
+
+    beforeEach(reset);
+
+    test('should be empty by default', () => {
+      instance.flex = null;
+      instance.flexDirection = null;
+      instance.justifyContent = null;
+      instance.alignItems = null;
+
+      expect(instance.flexStyles).toEqual({});
+    });
+
+    test('should provide the style when it is in the props', () => {
+      instance.props.flex = 1;
+      expect(instance.flexStyles).toEqual({ flex: 1 });
+
+      reset();
+      instance.props.row = true;
+      expect(instance.flexStyles).toEqual({ flexDirection: 'row' });
+
+      reset();
+      instance.props.row = true;
+      instance.props.alignX = 'center';
+      expect(instance.flexStyles).toEqual({ flexDirection: 'row', justifyContent: 'center' });
+
+      reset();
+      instance.props.row = true;
+      instance.props.alignY = 'center';
+      expect(instance.flexStyles).toEqual({ flexDirection: 'row', alignItems: 'center' });
     });
 
     describe('flex', () => {
       test('the value of flex in props is returned', () => {
         expect(instance.flex).toBe(undefined);
+
+        instance.props.flex = null;
+        expect(instance.flex).toBe(null);
 
         instance.props.flex = -1;
         expect(instance.flex).toBe(-1);
@@ -218,6 +250,114 @@ describe('provideLayout', () => {
           paddingLeft: 2,
           paddingRight: 2,
         });
+      });
+    });
+
+    describe('isCol', () => {
+      test('the col prop value is given', () => {
+        instance.props.col = true;
+        expect(instance.isCol).toBe(true);
+      });
+
+      test('the row prop takes precendence', () => {
+        instance.props.row = true;
+        instance.props.col = true;
+        expect(instance.isCol).toBe(false);
+      });
+    });
+
+    describe('isRow', () => {
+      test('the row prop value is given', () => {
+        instance.props.row = true;
+        expect(instance.isRow).toBe(true);
+      });
+
+      test('the row prop takes precendence', () => {
+        instance.props.row = true;
+        instance.props.col = true;
+        expect(instance.isRow).toBe(true);
+      });
+    });
+
+    describe('justifyContent', () => {
+      test('nothing is returned when both `row` and `col` are false', () => {
+        instance.props.row = false;
+        instance.props.col = false;
+        instance.props.alignX = 'flex-start';
+
+        expect(instance.justifyContent).toBe(null);
+      });
+
+      test('align value is returned when `row` and `alignX`', () => {
+        instance.props.row = true;
+        instance.props.alignX = 'space-around';
+
+        expect(instance.justifyContent).toBe('space-around');
+      });
+
+      test('align value is returned when `col` and `alignY`', () => {
+        instance.props.col = true;
+        instance.props.alignY = 'flex-end';
+
+        expect(instance.justifyContent).toBe('flex-end');
+      });
+
+      test('row takes precedence', () => {
+        instance.props.row = true;
+        instance.props.col = true;
+        instance.props.alignX = 'flex-start';
+
+        expect(instance.justifyContent).toBe('flex-start');
+      });
+
+      test('invalid justifyContent value fallsback to center', () => {
+        instance.props.row = true;
+        instance.props.alignX = 'stretch';
+
+        expect(instance.justifyContent).toBe('center');
+      });
+    });
+
+    describe('alignItems', () => {
+      test('nothing is returned when both `row` and `col` are false', () => {
+        instance.props.row = false;
+        instance.props.col = false;
+        instance.props.alignY = 'flex-start';
+
+        expect(instance.justifyContent).toBe(null);
+      });
+
+      test('align value is returned when `row` and `alignY`', () => {
+        instance.props.row = true;
+        instance.props.alignY = 'stretch';
+
+        expect(instance.alignItems).toBe('stretch');
+      });
+
+      test('align value is returned when `col` and `alignX`', () => {
+        instance.props.col = true;
+        instance.props.alignX = 'flex-end';
+
+        expect(instance.alignItems).toBe('flex-end');
+      });
+
+      test('row takes precedence', () => {
+        instance.props.row = true;
+        instance.props.col = true;
+        instance.props.alignY = 'flex-start';
+
+        expect(instance.alignItems).toBe('flex-start');
+      });
+
+      test('invalid alignItems value fallsback to center', () => {
+        instance.props.row = true;
+        instance.props.alignY = 'space-around';
+
+        expect(instance.alignItems).toBe('center');
+
+        instance.props.alignY = 'space-between';
+
+        expect(instance.alignItems).toBe('center');
       });
     });
   });

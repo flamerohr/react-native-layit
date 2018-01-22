@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "coverage": "jest --coverage",
     "peerinstall": "yarn add -P --no-lockfile $(node -e \"process.stdout.write(String(Object.entries(require('./package.json').peerDependencies).map(d => d.join('@')).join(' ')))\")"
   },
   "repository": {

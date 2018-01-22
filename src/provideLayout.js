@@ -3,6 +3,15 @@ import PropTypes from 'prop-types';
 import { View as RNView, ViewPropTypes } from 'react-native';
 import { calculate, propTypes as gapsPropTypes } from './gapsHelper';
 
+const alignProps = PropTypes.oneOf([
+  'flex-start',
+  'center',
+  'flex-end',
+  'space-around',
+  'space-between',
+  'stretch',
+]);
+
 export default function provideLayout(View = RNView) {
   return class Layit extends PureComponent {
     static propTypes = {
@@ -13,6 +22,8 @@ export default function provideLayout(View = RNView) {
       row: PropTypes.bool,
       col: PropTypes.bool,
       reverse: PropTypes.bool,
+      alignX: alignProps,
+      alignY: alignProps,
       viewProps: PropTypes.object,
     };
 
@@ -24,6 +35,8 @@ export default function provideLayout(View = RNView) {
       row: false,
       col: false,
       reverse: false,
+      alignX: null,
+      alignY: null,
       viewProps: {},
     };
 
@@ -31,15 +44,25 @@ export default function provideLayout(View = RNView) {
       const {
         flex,
         flexDirection,
+        justifyContent,
+        alignItems,
       } = this;
       const flexStyles = {};
 
-      if (flex !== null) {
-        Object.assign(flexStyles, { flex });
-      }
-
       if (flexDirection) {
         Object.assign(flexStyles, { flexDirection });
+      }
+
+      if (justifyContent) {
+        Object.assign(flexStyles, { justifyContent });
+      }
+
+      if (alignItems) {
+        Object.assign(flexStyles, { alignItems });
+      }
+
+      if (flex !== null) {
+        Object.assign(flexStyles, { flex });
       }
 
       return flexStyles;
@@ -54,18 +77,39 @@ export default function provideLayout(View = RNView) {
       return flex;
     }
 
+    get isRow() {
+      const { row } = this.props;
+
+      return row;
+    }
+
+    get isCol() {
+      const { row, col } = this.props;
+
+      // row takes precedence if both row and col are true
+      return !row && col;
+    }
+
     get flexDirection() {
-      const { row, col, reverse } = this.props;
+      const { reverse } = this.props;
       const reversing = reverse ? '-reverse' : '';
 
-      if (row) {
+      if (this.isRow) {
         return `row${reversing}`;
       }
-      if (col) {
+      if (this.isCol) {
         return `column${reversing}`;
       }
 
       return null;
+    }
+
+    get justifyContent() {
+      return this.getAlignment(true);
+    }
+
+    get alignItems() {
+      return this.getAlignment(false);
     }
 
     get margins() {
@@ -74,6 +118,33 @@ export default function provideLayout(View = RNView) {
 
     get paddings() {
       return calculate('padding', this.props.padding);
+    }
+
+    getAlignment(justified) {
+      const {
+        alignX,
+        alignY,
+      } = this.props;
+
+      const unsupported = 'center';
+
+      let alignProp = null;
+      if ((this.isRow && justified) || (this.isCol && !justified)) {
+        alignProp = alignX;
+      }
+      if ((this.isCol && justified) || (this.isRow && !justified)) {
+        alignProp = alignY;
+      }
+
+      if (justified && ['stretch'].includes(alignProp)) {
+        return unsupported;
+      }
+
+      if (!justified && ['space-around', 'space-between'].includes(alignProp)) {
+        return unsupported;
+      }
+
+      return alignProp;
     }
 
     render() {
@@ -85,6 +156,8 @@ export default function provideLayout(View = RNView) {
         row,
         col,
         reverse,
+        alignX,
+        alignY,
         viewProps,
         ...props
       } = this.props;

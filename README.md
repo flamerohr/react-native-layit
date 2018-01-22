@@ -138,13 +138,30 @@ Here is a list of available props for the layout
 
 | Prop | Type | Default | Description |
 | --- | :---: | :---: | --- |
-| row | boolean/number | false | Sets style `flexDirection: 'row'`, this take precedence over the `col` prop below |
-| col | boolean/number | false | Sets style `flexDirection: 'column'` |
-| reverse | boolean | false | Reverses the direction of `row` or `col` making the style `flexDirection: 'row-reverse'` or `flexDirection: 'column-reverse'` respectively, so will need one of those enabled to work |
-| flex | boolean/number | | Sets style `flex: ${number}`, will convert `false` to `0` and `true` to `1` |
-| margin | number/array[number] | | Sets margin for top, bottom, left and right. Follows CSS rules for `margin` |
-| padding | number/array[number] | | Sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
-| viewProps | object | `{}` | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them. Props declared here take precedence over "pass through" props |
+| `flex` | boolean/number | | Sets style `flex: ${number}`, will convert `false` to `0` and `true` to `1` |
+| `row` | boolean/number | `false` | Sets style `flexDirection: 'row'`, this take precedence over the `col` prop if both are `true` |
+| `col` | boolean/number | `false` | Sets style `flexDirection: 'column'` |
+| `reverse` | boolean | `false` | Reverses the direction of `row` or `col` making the style `flexDirection: 'row-reverse'` or `flexDirection: 'column-reverse'` respectively, so will need one of those enabled to work |
+| `alignX` | enum | | Sets either `justifyContent` for `row` or `alignItems` for `col` with the enum value. If neither `row` or `col` is defined this prop will not take effect |
+| `alignY` | enum | | Same with `alignX` but sets `justifyContent` for col or `alignItems` for `row` |
+| `margin` | number/array[number] | | Sets margin for top, bottom, left and right. Follows CSS rules for `margin` |
+| `padding` | number/array[number] | | Sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
+| `viewProps` | object | `{}` | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them. Props declared here take precedence over "pass through" props |
+
+ ### Using `alignX` and `alignY`
+
+ Here is a table for reference when an enum value is invalid in which case `center` is used instead.
+
+ Important to note again that if neither `row` or `col` is defined these props will not take effect, that's because the library cannot tell which direction the flex is running otherwise.
+
+| enum values     |  `row`+`alignX` |  `row`+`alignY` |  `col`+`alignX` |  `col`+`alignY` |
+| --------------- | :-------------: | :-------------: | :-------------: | :-------------: |
+| `flex-start`    |                 |                 |                 |                 |
+| `center`        |                 |                 |                 |                 |
+| `flex-end`      |                 |                 |                 |                 |
+| `space-around`  |                 | :no_entry_sign: | :no_entry_sign: |                 |
+| `space-between` |                 | :no_entry_sign: | :no_entry_sign: |                 |
+| `stretch`       | :no_entry_sign: |                 |                 | :no_entry_sign: |
 
 ## Styles take precedence
 
