@@ -1,5 +1,6 @@
 # Layit - Layout library for react-native
 
+[![npm version](https://badge.fury.io/js/react-native-layit.svg)](https://badge.fury.io/js/react-native-layit)
 [![Build Status](https://travis-ci.org/flamerohr/react-native-layit.svg?branch=master)](https://travis-ci.org/flamerohr/react-native-layit)
 [![codecov](https://codecov.io/gh/flamerohr/react-native-layit/branch/master/graph/badge.svg)](https://codecov.io/gh/flamerohr/react-native-layit)
 
