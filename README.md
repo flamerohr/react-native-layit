@@ -140,17 +140,17 @@ You could have it the other way round, but only it cases where you don't want an
 
 Here is a list of available props for the layout
 
-| Prop | Type | Default | Description |
-| --- | :---: | :---: | --- |
-| `flex` | boolean/number | | Sets style `flex: ${number}`, will convert `false` to `0` and `true` to `1` |
-| `row` | boolean/number | `false` | Sets style `flexDirection: 'row'`, this take precedence over the `col` prop if both are `true` |
-| `col` | boolean/number | `false` | Sets style `flexDirection: 'column'` |
-| `reverse` | boolean | `false` | Reverses the direction of `row` or `col` making the style `flexDirection: 'row-reverse'` or `flexDirection: 'column-reverse'` respectively, so will need one of those enabled to work |
-| `alignX` | enum | | Sets either `justifyContent` for `row` or `alignItems` for `col` with the enum value. If neither `row` or `col` is defined this prop will not take effect |
-| `alignY` | enum | | Same with `alignX` but sets `justifyContent` for col or `alignItems` for `row` |
-| `margin` | number/array[number] | | Sets margin for top, bottom, left and right. Follows CSS rules for `margin` |
-| `padding` | number/array[number] | | Sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
-| `viewProps` | object | `{}` | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them. Props declared here take precedence over "pass through" props |
+| Prop        |         Type         | Default | Description |
+| ----------- | :------------------: | :-----: | ----------- |
+| `flex`      |    boolean/number    |         | Sets style `flex: ${number}`, will convert `false` to `0` and `true` to `1` |
+| `row`       |    boolean/number    | `false` | Sets style `flexDirection: 'row'`, this take precedence over the `col` prop if both are `true` |
+| `col`       |    boolean/number    | `false` | Sets style `flexDirection: 'column'` |
+| `reverse`   |        boolean       | `false` | Reverses the direction of `row` or `col` making the style `flexDirection: 'row-reverse'` or `flexDirection: 'column-reverse'` respectively, so will need one of those enabled to work |
+| `alignX`    |         enum         |         | Sets either `justifyContent` for `row` or `alignItems` for `col` with the enum value. If neither `row` or `col` is defined this prop will not take effect |
+| `alignY`    |         enum         |         | Same with `alignX` but sets `justifyContent` for col or `alignItems` for `row` |
+| `margin`    | number/array[number] |         | Sets margin for top, bottom, left and right. Follows CSS rules for `margin` |
+| `padding`   | number/array[number] |         | Sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
+| `viewProps` |        object        |   `{}`  | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them. Props declared here take precedence over "pass through" props |
 
  ### Using `alignX` and `alignY`
 
@@ -166,6 +166,20 @@ Here is a list of available props for the layout
 | `space-around`  |                 | :no_entry_sign: | :no_entry_sign: |                 |
 | `space-between` |                 | :no_entry_sign: | :no_entry_sign: |                 |
 | `stretch`       | :no_entry_sign: |                 |                 | :no_entry_sign: |
+
+### Using `margin` and `padding`
+
+Here is a table for what styles are applied when you use the `margin` and/or `padding`.
+
+This behaves like the CSS rules, so if you're familiar with that, you probably already understand how it works.
+
+| values           | `top` | `bottom` | `left` | `right` |
+| ---------------- | :---: | :------: | :----: | :-----: |
+| 12               |   12  |    12    |   12   |    12   |
+| [12]             |   12  |    12    |   12   |    12   |
+| [12, 24]         |   12  |    12    |   24   |    24   |
+| [12, 24, 36]     |   12  |    36    |   24   |    24   |
+| [12, 24, 36, 48] |   12  |    36    |   48   |    24   |
 
 ## Styles take precedence
 
