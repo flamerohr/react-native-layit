@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "8"
+notifications:
+  slack: flamerohr-notices:GsV1egH8jaxpZJ9bT9KC9pUB
 install:
   - npm install -g codecov
   - yarn
