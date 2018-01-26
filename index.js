@@ -1,5 +1,4 @@
 import provideLayout from './src/provideLayout';
-import provideStyles from './src/provideStyles';
 
-export { provideLayout, provideStyles };
+export { provideLayout };
 export default provideLayout();

@@ -8,6 +8,6 @@ install:
   - yarn
   - yarn peerinstall
 script:
-  - yarn test --coverage
+  - yarn test
 after_script:
   - codecov
