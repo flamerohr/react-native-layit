@@ -1,6 +1,6 @@
 {
   "name": "react-native-layit",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "A layout library for react native to help position components cleanly and in an expressive way",
   "main": "index.js",
   "scripts": {
