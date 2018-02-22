@@ -4,9 +4,9 @@ export const calculate = (type, value) => {
   if (type !== 'margin' && type !== 'padding') {
     throw new Error('Invalid type provided to `calculateGaps`: only accepts "margin" or "padding"');
   }
-  if (typeof value === 'number') {
+  if (typeof value === 'number' || typeof value === 'string') {
     return {
-      [type]: value,
+      [type]: Number(value),
     };
   }
 
@@ -14,12 +14,9 @@ export const calculate = (type, value) => {
     return {};
   }
 
-  const filtered = value.map(item => item || 0);
+  const filtered = value.map(item => Number(item));
 
-  if (filtered.length === 0 ||
-    filtered.find(item => typeof item !== 'number') ||
-    filtered.length > 4
-  ) {
+  if (filtered.length === 0 || filtered.length > 4) {
     return {};
   }
 
@@ -40,6 +37,6 @@ export const calculate = (type, value) => {
 };
 
 export const propTypes = PropTypes.oneOfType([
-  PropTypes.number,
-  PropTypes.arrayOf(PropTypes.number),
+  PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
 ]);
