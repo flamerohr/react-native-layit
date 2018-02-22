@@ -150,14 +150,6 @@ export default function provideLayout(View = RNView) {
     render() {
       const {
         style,
-        margin,
-        padding,
-        flex,
-        row,
-        col,
-        reverse,
-        alignX,
-        alignY,
         viewProps,
         ...props
       } = this.props;
@@ -167,6 +159,8 @@ export default function provideLayout(View = RNView) {
         ...this.paddings,
         ...this.flexStyles,
       };
+
+      Object.keys(Layit.propTypes).forEach(name => delete props[name]);
 
       return <View {...props} {...viewProps} style={[layout, style, viewProps.style]} />;
     }
