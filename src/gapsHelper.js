@@ -5,8 +5,12 @@ export const calculate = (type, value) => {
     throw new Error('Invalid type provided to `calculateGaps`: only accepts "margin" or "padding"');
   }
   if (typeof value === 'number' || typeof value === 'string') {
+    const gap = Number(value || 0);
+    if (isNaN(gap)) {
+      return {};
+    }
     return {
-      [type]: Number(value),
+      [type]: gap,
     };
   }
 
@@ -14,9 +18,12 @@ export const calculate = (type, value) => {
     return {};
   }
 
-  const filtered = value.map(item => Number(item));
+  const filtered = value.map(item => Number(item || 0));
 
-  if (filtered.length === 0 || filtered.length > 4) {
+  if (filtered.length === 0 ||
+    filtered.length > 4 ||
+    filtered.findIndex(item => isNaN(item)) !== -1
+  ) {
     return {};
   }
 
