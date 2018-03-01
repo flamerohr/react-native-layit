@@ -6,7 +6,6 @@ notifications:
 install:
   - npm install -g codecov
   - yarn
-  - yarn peerinstall
 script:
   - yarn test
 after_script:
