@@ -15,7 +15,7 @@ const alignProps = PropTypes.oneOf([
 export default function provideLayout(View = RNView) {
   return class Layit extends PureComponent {
     static propTypes = {
-      style: ViewPropTypes.style,
+      style: (View === RNView) ? ViewPropTypes.style : PropTypes.any,
       margin: gapsPropTypes,
       padding: gapsPropTypes,
       flex: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
