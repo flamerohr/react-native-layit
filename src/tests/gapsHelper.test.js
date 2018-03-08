@@ -13,7 +13,7 @@ describe('calculate', () => {
       .not.toThrow();
   });
 
-  test('should return an empty object if not number or array of numbers', () => {
+  test('should return an empty object if not number, string or array of numbers', () => {
     expect(calculate('margin'))
       .toEqual({});
     expect(calculate('padding', {}))
@@ -22,7 +22,18 @@ describe('calculate', () => {
       .toEqual({});
     expect(calculate('padding', ['bob', 'again']))
       .toEqual({});
-    // falsey values are converted to 0
+  });
+
+  test('falsey string value is converted to 0', () => {
+    expect(calculate('margin', ''))
+      .toEqual({
+        margin: 0,
+      });
+    expect(calculate('padding', null))
+      .toEqual({});
+  });
+
+  test('falsey values in an array is converted to 0', () => {
     expect(calculate('margin', [null, '', undefined, 15]))
       .toEqual({
         marginTop: 0,
@@ -33,7 +44,10 @@ describe('calculate', () => {
   });
 
   test('should return an empty object if no items or more than 4 items', () => {
-
+    expect(calculate('padding', []))
+      .toEqual({});
+    expect(calculate('padding', [1, 2, 3, 4, 5]))
+      .toEqual({});
   });
 
   describe('behave like CSS margin/padding', () => {
