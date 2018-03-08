@@ -77,11 +77,9 @@ describe('provideLayout', () => {
       const layout = new Layout(props);
 
       const anotherLayout = new Layout({
-        row: true,
-        alignY: 'center',
-        cacheStyles: true,
+        ...props,
       });
-      expect(anotherLayout.layout).toEqual(layout.layout);
+      expect(anotherLayout.layout).toBe(layout.layout);
 
       const differentKeyLayout = new Layout({
         row: true,
