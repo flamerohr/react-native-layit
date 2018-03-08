@@ -2,15 +2,50 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import renderer from 'react-test-renderer';
-import provideLayout from '../provideLayout';
+import provideLayout, { clearCache } from '../provideLayout';
 import hash from 'object-hash';
 
 describe('provideLayout', () => {
   let Layout = null;
   let props = null;
 
+  beforeEach(() => {
+    clearCache();
+  });
+
+  describe('clearCache', () => {
+    let mockStyleIndexer = null;
+
+    beforeEach(() => {
+      mockStyleIndexer = jest.fn(styles => styles);
+      Layout = provideLayout(View, mockStyleIndexer);
+    });
+
+    test('clearing cache causes style indexer to be called again', () => {
+      const instance = new Layout({ row: true, cacheStyles: true });
+
+      instance.layout;
+      instance.layout;
+
+      expect(mockStyleIndexer).toBeCalled();
+      expect(mockStyleIndexer.mock.calls.length).toBe(1);
+
+      clearCache();
+
+      instance.layout;
+
+      expect(mockStyleIndexer.mock.calls.length).toBe(2);
+
+      instance.layout;
+      instance.layout;
+      instance.layout;
+
+      expect(mockStyleIndexer.mock.calls.length).toBe(2);
+    });
+  });
+
   describe('layout', () => {
-    const mockStyleCache = (styles) => Object
+    const mockStyleIndexer = (styles) => Object
       .entries(styles)
       .reduce((prev, [key, value]) => ({
         ...prev,
@@ -24,7 +59,7 @@ describe('provideLayout', () => {
         alignY: 'center',
         cacheStyles: true,
       };
-      Layout = provideLayout(View, mockStyleCache);
+      Layout = provideLayout(View, mockStyleIndexer);
     });
 
     test('can bypass cache', () => {

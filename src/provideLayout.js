@@ -13,9 +13,13 @@ const alignProps = PropTypes.oneOf([
   'stretch',
 ]);
 
-const styles = {};
+let styles = {};
 
-export default function provideLayout(View = RNView, styleCache = StyleSheet.create) {
+export const clearCache = () => {
+  styles = {};
+};
+
+export default function provideLayout(View = RNView, styleIndexer = StyleSheet.create) {
   return class Layit extends PureComponent {
     static propTypes = {
       style: (View === RNView) ? ViewPropTypes.style : PropTypes.any,
@@ -58,11 +62,14 @@ export default function provideLayout(View = RNView, styleCache = StyleSheet.cre
       const key = hash(layout);
 
       if (!styles[key]) {
-        newStyle = styleCache({
+        newStyle = styleIndexer({
           layout,
         });
 
-        styles[key] = newStyle.layout;
+        styles = {
+          ...styles,
+          [key]: newStyle.layout,
+        };
       }
 
       return styles[key];
