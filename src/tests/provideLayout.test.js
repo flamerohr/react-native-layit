@@ -3,10 +3,66 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import renderer from 'react-test-renderer';
 import provideLayout from '../provideLayout';
+import hash from 'object-hash';
 
 describe('provideLayout', () => {
   let Layout = null;
   let props = null;
+
+  describe('layout', () => {
+    const mockStyleCache = (styles) => Object
+      .entries(styles)
+      .reduce((prev, [key, value]) => ({
+        ...prev,
+        // generate a unique id similar to how StyleSheet.create does - but not an integer
+        [key]: `hashed:${hash(value)}`,
+      }), {});
+
+    beforeEach(() => {
+      props = {
+        row: true,
+        alignY: 'center',
+        cacheStyles: true,
+      };
+      Layout = provideLayout(View, mockStyleCache);
+    });
+
+    test('can bypass cache', () => {
+      const cached = new Layout(props);
+
+      const notCached = new Layout({
+        ...props,
+        cacheStyles: false,
+      });
+
+      expect(cached.layout).not.toEqual(notCached.layout);
+    });
+
+    test('layout id should be cached and be the same for a set of styles', () => {
+      const layout = new Layout(props);
+
+      const anotherLayout = new Layout({
+        row: true,
+        alignY: 'center',
+        cacheStyles: true,
+      });
+      expect(anotherLayout.layout).toEqual(layout.layout);
+
+      const differentKeyLayout = new Layout({
+        row: true,
+        alignX: 'center',
+        cacheStyles: true,
+      });
+      expect(differentKeyLayout.layout).not.toEqual(layout.layout);
+
+      const differentValueLayout = new Layout({
+        row: true,
+        alignY: 'flex-start',
+        cacheStyles: true,
+      });
+      expect(differentValueLayout.layout).not.toEqual(layout.layout);
+    });
+  });
 
   describe('viewProps', () => {
     const createCheck = (message, expected) => (checkProps) => {

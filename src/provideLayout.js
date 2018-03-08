@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View as RNView, ViewPropTypes } from 'react-native';
+import { View as RNView, ViewPropTypes, StyleSheet } from 'react-native';
 import { calculate, propTypes as gapsPropTypes } from './gapsHelper';
+import hash from 'object-hash';
 
 const alignProps = PropTypes.oneOf([
   'flex-start',
@@ -12,7 +13,9 @@ const alignProps = PropTypes.oneOf([
   'stretch',
 ]);
 
-export default function provideLayout(View = RNView) {
+const styles = {};
+
+export default function provideLayout(View = RNView, styleCache = StyleSheet.create) {
   return class Layit extends PureComponent {
     static propTypes = {
       style: (View === RNView) ? ViewPropTypes.style : PropTypes.any,
@@ -25,6 +28,7 @@ export default function provideLayout(View = RNView) {
       alignX: alignProps,
       alignY: alignProps,
       viewProps: PropTypes.object,
+      cacheStyles: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -38,7 +42,32 @@ export default function provideLayout(View = RNView) {
       alignX: null,
       alignY: null,
       viewProps: {},
+      cacheStyles: true,
     };
+
+    get layout() {
+      const layout = {
+        ...this.margins,
+        ...this.paddings,
+        ...this.flexStyles,
+      };
+
+      if (!this.props.cacheStyles) {
+        return layout;
+      }
+      const key = hash(layout);
+
+      if (!styles[key]) {
+        newStyle = styleCache({
+          layout,
+        });
+
+        styles[key] = newStyle.layout;
+      }
+
+      return styles[key];
+    }
+
 
     get flexStyles() {
       const {
@@ -61,7 +90,7 @@ export default function provideLayout(View = RNView) {
         Object.assign(flexStyles, { alignItems });
       }
 
-      if (flex !== null) {
+      if (flex !== null && typeof flex !== 'undefined') {
         Object.assign(flexStyles, { flex });
       }
 
@@ -154,12 +183,9 @@ export default function provideLayout(View = RNView) {
         ...props
       } = this.props;
 
-      const layout = {
-        ...this.margins,
-        ...this.paddings,
-        ...this.flexStyles,
-      };
+      const layout = this.layout;
 
+      // don't pass on layit props
       Object.keys(Layit.propTypes).forEach(name => delete props[name]);
 
       return <View {...props} {...viewProps} style={[layout, style, viewProps.style]} />;
