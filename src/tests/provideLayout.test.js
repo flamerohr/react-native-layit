@@ -2,11 +2,100 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import renderer from 'react-test-renderer';
-import provideLayout from '../provideLayout';
+import provideLayout, { clearCache } from '../provideLayout';
+import hash from 'object-hash';
 
 describe('provideLayout', () => {
   let Layout = null;
   let props = null;
+
+  beforeEach(() => {
+    clearCache();
+  });
+
+  describe('clearCache', () => {
+    let mockStyleIndexer = null;
+
+    beforeEach(() => {
+      mockStyleIndexer = jest.fn(styles => styles);
+      Layout = provideLayout(View, mockStyleIndexer);
+    });
+
+    test('clearing cache causes style indexer to be called again', () => {
+      const instance = new Layout({ row: true, cacheStyles: true });
+
+      instance.layout;
+      instance.layout;
+
+      expect(mockStyleIndexer).toBeCalled();
+      expect(mockStyleIndexer.mock.calls.length).toBe(1);
+
+      clearCache();
+
+      instance.layout;
+
+      expect(mockStyleIndexer.mock.calls.length).toBe(2);
+
+      instance.layout;
+      instance.layout;
+      instance.layout;
+
+      expect(mockStyleIndexer.mock.calls.length).toBe(2);
+    });
+  });
+
+  describe('layout', () => {
+    const mockStyleIndexer = (styles) => Object
+      .entries(styles)
+      .reduce((prev, [key, value]) => ({
+        ...prev,
+        // generate a unique id similar to how StyleSheet.create does - but not an integer
+        [key]: `hashed:${hash(value)}`,
+      }), {});
+
+    beforeEach(() => {
+      props = {
+        row: true,
+        alignY: 'center',
+        cacheStyles: true,
+      };
+      Layout = provideLayout(View, mockStyleIndexer);
+    });
+
+    test('can bypass cache', () => {
+      const cached = new Layout(props);
+
+      const notCached = new Layout({
+        ...props,
+        cacheStyles: false,
+      });
+
+      expect(cached.layout).not.toEqual(notCached.layout);
+    });
+
+    test('layout id should be cached and be the same for a set of styles', () => {
+      const layout = new Layout(props);
+
+      const anotherLayout = new Layout({
+        ...props,
+      });
+      expect(anotherLayout.layout).toBe(layout.layout);
+
+      const differentKeyLayout = new Layout({
+        row: true,
+        alignX: 'center',
+        cacheStyles: true,
+      });
+      expect(differentKeyLayout.layout).not.toEqual(layout.layout);
+
+      const differentValueLayout = new Layout({
+        row: true,
+        alignY: 'flex-start',
+        cacheStyles: true,
+      });
+      expect(differentValueLayout.layout).not.toEqual(layout.layout);
+    });
+  });
 
   describe('viewProps', () => {
     const createCheck = (message, expected) => (checkProps) => {

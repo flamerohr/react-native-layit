@@ -25,13 +25,15 @@
     "url": "https://github.com/flamerohr/react-native-layit/issues"
   },
   "homepage": "https://github.com/flamerohr/react-native-layit#readme",
-  "dependencies": {},
+  "dependencies": {
+    "object-hash": "^1.2.0"
+  },
   "devDependencies": {
+    "jest": "^22.1.2",
+    "jest-react-native": "^18.0.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-native": "^0.52.0",
-    "jest": "^22.1.2",
-    "jest-react-native": "^18.0.0",
     "react-test-renderer": "^16.2.0"
   },
   "peerDependencies": {
