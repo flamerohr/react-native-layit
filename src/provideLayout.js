@@ -62,7 +62,7 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       const key = hash(layout);
 
       if (!styles[key]) {
-        newStyle = styleIndexer({
+        const newStyle = styleIndexer({
           layout,
         });
 
