@@ -54,6 +54,7 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
         ...this.margins,
         ...this.paddings,
         ...this.flexStyles,
+        ...this.dimensions,
       };
 
       if (!this.props.cacheStyles) {
@@ -75,6 +76,25 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       return styles[key];
     }
 
+    get dimensions() {
+      const { flex } = this;
+      const dimensions = {};
+
+      const {
+        width,
+        height
+      } = this.props;
+
+      if (typeof width !== 'undefined') {
+        Object.assign(dimensions, { width });
+      }
+
+      if (typeof height !== 'undefined') {
+        Object.assign(dimensions, { height });
+      }
+
+      return dimensions;
+    }
 
     get flexStyles() {
       const {

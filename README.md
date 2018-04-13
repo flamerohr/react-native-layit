@@ -148,12 +148,14 @@ Here is a list of available props for the layout
 | `reverse`     |        boolean       | `false` | Reverses the direction of `row` or `col` making the style `flexDirection: 'row-reverse'` or `flexDirection: 'column-reverse'` respectively, so will need one of those enabled to work |
 | `alignX`      |         enum         |         | Sets either `justifyContent` for `row` or `alignItems` for `col` with the enum value. If neither `row` or `col` is defined this prop will not take effect |
 | `alignY`      |         enum         |         | Same with `alignX` but sets `justifyContent` for col or `alignItems` for `row` |
+| `width`       |        number        |         | Set the width, could interfer with `flex` behaviours if used together |
+| `height`      |        number        |         | Set the height, could interfer with `flex` behaviours if used together |
 | `margin`      | number/array[number] |         | Sets margin for top, bottom, left and right. Follows CSS rules for `margin` |
 | `padding`     | number/array[number] |         | Sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
 | `viewProps`   |        object        |   `{}`  | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them. Props declared here take precedence over "pass through" props |
 | `cacheStyles` |        boolean       |  `true` | Disables style cache, this could improve performance if you're doing rapid style changes through Layit, although it really depends on whether hashing an object or sending manual styles through is more performant, and also if you're going to re-use any of the styles that you're rapidly changing again. Your mileage may vary |
 
- ### Using `alignX` and `alignY`
+### Using `alignX` and `alignY`
 
  Here is a table for reference when an enum value is invalid in which case `center` is used instead.
 

@@ -216,6 +216,34 @@ describe('provideLayout', () => {
     });
   });
 
+  describe('dimensions', () => {
+    let instance = null;
+    const reset = () => {
+      Layout = provideLayout();
+      instance = new Layout({});
+    };
+
+    beforeEach(reset);
+
+    test('should be empty by default', () => {
+      expect(instance.dimensions).toEqual({});
+    });
+
+    test('should provide the width or height when it is in the props', () => {
+      instance.props.height = 40;
+      expect(instance.dimensions).toEqual({ height: 40 });
+
+      reset();
+      instance.props.width = 50;
+      expect(instance.dimensions).toEqual({ width: 50 });
+
+      reset();
+      instance.props.height = 15;
+      instance.props.width = 69;
+      expect(instance.dimensions).toEqual({ height: 15, width: 69 });
+    });
+  });
+
   describe('flexStyles', () => {
     let instance = null;
     const reset = () => {
@@ -226,11 +254,6 @@ describe('provideLayout', () => {
     beforeEach(reset);
 
     test('should be empty by default', () => {
-      instance.flex = null;
-      instance.flexDirection = null;
-      instance.justifyContent = null;
-      instance.alignItems = null;
-
       expect(instance.flexStyles).toEqual({});
     });
 
