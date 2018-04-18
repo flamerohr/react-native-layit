@@ -33,14 +33,8 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import Layit from 'react-native-layit';
 
-const Box = ({ style }) => (
-  <View style={[
-    {
-      width: 50,
-      height: 50
-    },
-    style
-  ]}>
+const Box = (props) => (
+  <Layit width="50" height="50" />
 );
 
 export default () => (
@@ -62,6 +56,10 @@ Now, let's get to what this library is for.
 Say we wanted things to align horizontally instead of vertically, we can do this without `Layit`.
 
 ```jsx
+const Box = ({ style }) => (
+  <View style={[{ width: 50, height: 50 }, style]}>
+);
+
 export default () => (
   <View style={{ flexDirection: 'row', marginTop: 20, marginLeft: 10, marginBottom: 5, marginRight: 20 }}>
     <Box style={{ backgroundColor: 'red' }} />
@@ -86,7 +84,7 @@ export default () => (
 The layout styles are props and can be utilised cleanly without the need to mangle with the `style` prop.
 
 The style prop will pass through and applied normally, so you can use as much of the API available as you feel comfortable.
-The style prop will override the layout props, if both are defined. So becareful.
+With that said though, the style prop will override the layout props, if both are defined. So becareful.
 
 ```jsx
 export default () => (

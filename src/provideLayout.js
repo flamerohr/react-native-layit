@@ -33,6 +33,8 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       alignY: alignProps,
       viewProps: PropTypes.object,
       cacheStyles: PropTypes.bool,
+      width: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+      height: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
     };
 
     static defaultProps = {
@@ -47,6 +49,8 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       alignY: null,
       viewProps: {},
       cacheStyles: true,
+      width: null,
+      height: null,
     };
 
     get layout() {
@@ -86,11 +90,11 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       } = this.props;
 
       if (typeof width !== 'undefined') {
-        Object.assign(dimensions, { width });
+        Object.assign(dimensions, { width: Number(width) });
       }
 
       if (typeof height !== 'undefined') {
-        Object.assign(dimensions, { height });
+        Object.assign(dimensions, { height: Number(height) });
       }
 
       return dimensions;
