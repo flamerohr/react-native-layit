@@ -89,11 +89,11 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
         height
       } = this.props;
 
-      if (typeof width !== 'undefined') {
+      if (width) {
         Object.assign(dimensions, { width: Number(width) });
       }
 
-      if (typeof height !== 'undefined') {
+      if (height) {
         Object.assign(dimensions, { height: Number(height) });
       }
 
