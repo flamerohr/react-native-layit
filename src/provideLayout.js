@@ -33,8 +33,8 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       alignY: alignProps,
       viewProps: PropTypes.object,
       cacheStyles: PropTypes.bool,
-      width: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
-      height: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+      width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     };
 
     static defaultProps = {
