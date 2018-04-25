@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View as RNView, ViewPropTypes, StyleSheet } from 'react-native';
-import { calculate, propTypes as gapsPropTypes } from './gapsHelper';
+import { calculate as getGaps, propTypes as gapsPropTypes } from './gapsHelper';
+import { calculate as getDimensions, propTypes as dimensionsPropTypes } from './dimensionsHelper';
 import hash from 'object-hash';
 
 const alignProps = PropTypes.oneOf([
@@ -33,8 +34,8 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       alignY: alignProps,
       viewProps: PropTypes.object,
       cacheStyles: PropTypes.bool,
-      width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      width: dimensionsPropTypes,
+      height: dimensionsPropTypes,
     };
 
     static defaultProps = {
@@ -58,7 +59,8 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
         ...this.margins,
         ...this.paddings,
         ...this.flexStyles,
-        ...this.dimensions,
+        ...this.heights,
+        ...this.widths,
       };
 
       if (!this.props.cacheStyles) {
@@ -80,24 +82,12 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       return styles[key];
     }
 
-    get dimensions() {
-      const { flex } = this;
-      const dimensions = {};
+    get heights() {
+      return getDimensions('Height', this.props.height);
+    }
 
-      const {
-        width,
-        height
-      } = this.props;
-
-      if (width) {
-        Object.assign(dimensions, { width: Number(width) });
-      }
-
-      if (height) {
-        Object.assign(dimensions, { height: Number(height) });
-      }
-
-      return dimensions;
+    get widths() {
+      return getDimensions('Width', this.props.width);
     }
 
     get flexStyles() {
@@ -173,11 +163,11 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
     }
 
     get margins() {
-      return calculate('margin', this.props.margin);
+      return getGaps('margin', this.props.margin);
     }
 
     get paddings() {
-      return calculate('padding', this.props.padding);
+      return getGaps('padding', this.props.padding);
     }
 
     getAlignment(justified) {

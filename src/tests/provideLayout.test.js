@@ -225,22 +225,82 @@ describe('provideLayout', () => {
 
     beforeEach(reset);
 
-    test('should be empty by default', () => {
-      expect(instance.dimensions).toEqual({});
+    describe('widths', () => {
+      test('should be empty by default', () => {
+        expect(instance.widths).toEqual({});
+      });
+
+      test('should provide the width in the props', () => {
+        instance.props.width = '50%';
+        expect(instance.widths).toEqual({ width: '50%' });
+      });
+
+      test('should provide min and max when array is given', () => {
+        instance.props.width = [10, null, 25];
+        expect(instance.widths).toEqual({ minWidth: 10, maxWidth: 25 });
+      });
     });
 
-    test('should provide the width or height when it is in the props', () => {
-      instance.props.height = 40;
-      expect(instance.dimensions).toEqual({ height: 40 });
+    describe('heights', () => {
+      test('should be empty by default', () => {
+        expect(instance.heights).toEqual({});
+      });
 
-      reset();
-      instance.props.width = 50;
-      expect(instance.dimensions).toEqual({ width: 50 });
+      test('should provide the height in the props', () => {
+        instance.props.height = 40;
+        expect(instance.heights).toEqual({ height: 40 });
+      });
 
-      reset();
-      instance.props.height = 15;
-      instance.props.width = 69;
-      expect(instance.dimensions).toEqual({ height: 15, width: 69 });
+      test('should provide min and max when array is given', () => {
+        instance.props.height = [10, null, 25];
+        expect(instance.heights).toEqual({ minHeight: 10, maxHeight: 25 });
+      });
+    });
+  });
+
+  describe('gaps', () => {
+    let instance = null;
+    const reset = () => {
+      Layout = provideLayout();
+      instance = new Layout({});
+    };
+
+    beforeEach(reset);
+
+    describe('margins', () => {
+      test('provide margin properties', () => {
+        instance.props.margin = 1;
+        expect(instance.margins).toEqual({ margin: 1 });
+
+        instance.props.margin = [1];
+        expect(instance.margins).toEqual({ margin: 1 });
+
+        instance.props.margin = [1, 5];
+        expect(instance.margins).toEqual({
+          marginTop: 1,
+          marginBottom: 1,
+          marginLeft: 5,
+          marginRight: 5,
+        });
+      });
+    });
+
+    describe('paddings', () => {
+      test('provide padding properties', () => {
+        instance.props.padding = 3;
+        expect(instance.paddings).toEqual({ padding: 3 });
+
+        instance.props.padding = [3];
+        expect(instance.paddings).toEqual({ padding: 3 });
+
+        instance.props.padding = [7, 2, 8];
+        expect(instance.paddings).toEqual({
+          paddingTop: 7,
+          paddingBottom: 8,
+          paddingLeft: 2,
+          paddingRight: 2,
+        });
+      });
     });
   });
 
@@ -326,42 +386,6 @@ describe('provideLayout', () => {
         instance.props.row = true;
         instance.props.col = true;
         expect(instance.flexDirection).toBe('row');
-      });
-    });
-
-    describe('margins', () => {
-      test('provide margin properties', () => {
-        instance.props.margin = 1;
-        expect(instance.margins).toEqual({ margin: 1 });
-
-        instance.props.margin = [1];
-        expect(instance.margins).toEqual({ margin: 1 });
-
-        instance.props.margin = [1, 5];
-        expect(instance.margins).toEqual({
-          marginTop: 1,
-          marginBottom: 1,
-          marginLeft: 5,
-          marginRight: 5,
-        });
-      });
-    });
-
-    describe('paddings', () => {
-      test('provide padding properties', () => {
-        instance.props.padding = 3;
-        expect(instance.paddings).toEqual({ padding: 3 });
-
-        instance.props.padding = [3];
-        expect(instance.paddings).toEqual({ padding: 3 });
-
-        instance.props.padding = [7, 2, 8];
-        expect(instance.paddings).toEqual({
-          paddingTop: 7,
-          paddingBottom: 8,
-          paddingLeft: 2,
-          paddingRight: 2,
-        });
       });
     });
 
