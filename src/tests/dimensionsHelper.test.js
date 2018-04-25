@@ -17,7 +17,7 @@ describe('calculate', () => {
   });
 
   test('should provide min and max without lowercase if array value', () => {
-    expect(calculate('Width', [1, 2, 3])).toEqual({
+    expect(calculate('Width', [1, '2', 3])).toEqual({
       minWidth: 1,
       width: 2,
       maxWidth: 3,

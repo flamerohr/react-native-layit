@@ -178,12 +178,12 @@ I had found that quite verbose for this library and pollutes the property list a
 
 To define `minWidth`, `width` and `maxWidth` you'll need to define an array for the `width` property in the format: `[minWidth, width, maxWidth]`, and the same applies for `height`.
 
-The values provided will need to be a valid number or string, otherwise it will error or be ignored altogether.
+The values provided will need to be a valid number or string (can be a percent), otherwise it will error or be ignored altogether.
 
 An example of the feature:
 
 ```jsx
-<Layit width={[30, "60%", 80]} />
+<Layit width={['30', "60%", 80]} />
 ```
 
 This means the following styles are applied:

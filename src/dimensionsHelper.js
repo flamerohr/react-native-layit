@@ -1,5 +1,14 @@
 import PropTypes from 'prop-types';
 
+const sanitize = (amount) => {
+  const numeric = Number(amount);
+
+  if (!Number.isNaN(numeric)) {
+    return numeric;
+  }
+  return amount;
+};
+
 export const calculate = (type, amount) => {
   if (type !== 'Width' && type !== 'Height') {
     throw new Error('Invalid type provided to `dimensionsHelper`: only accepts "Width" or "Height"');
@@ -8,21 +17,27 @@ export const calculate = (type, amount) => {
   const dimensions = {};
 
   if (typeof amount === 'string' || typeof amount === 'number') {
-    dimensions[prop] = amount;
+    dimensions[prop] = sanitize(amount);
   }
 
   if (!Array.isArray(amount)) {
     return dimensions;
   }
 
-  if (typeof amount[0] === 'string' || typeof amount[0] === 'number') {
-    dimensions[`min${type}`] = amount[0];
+  const [
+    min,
+    actual,
+    max,
+  ] = amount;
+
+  if (typeof min === 'string' || typeof min === 'number') {
+    dimensions[`min${type}`] = sanitize(min);
   }
-  if (typeof amount[1] === 'string' || typeof amount[1] === 'number') {
-    dimensions[prop] = amount[1];
+  if (typeof actual === 'string' || typeof actual === 'number') {
+    dimensions[prop] = sanitize(actual);
   }
-  if (typeof amount[2] === 'string' || typeof amount[2] === 'number') {
-    dimensions[`max${type}`] = amount[2];
+  if (typeof max === 'string' || typeof max === 'number') {
+    dimensions[`max${type}`] = sanitize(max);
   }
 
   return dimensions;
