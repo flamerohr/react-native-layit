@@ -10,6 +10,8 @@ const alignProps = PropTypes.oneOf([
   'flex-end',
   'space-around',
   'space-between',
+  'space-evenly',
+  'baseline',
   'stretch',
 ]);
 
@@ -196,11 +198,11 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
         alignProp = alignY;
       }
 
-      if (justified && ['stretch'].includes(alignProp)) {
+      if (justified && ['stretch', 'baseline'].includes(alignProp)) {
         return unsupported;
       }
 
-      if (!justified && ['space-around', 'space-between'].includes(alignProp)) {
+      if (!justified && ['space-around', 'space-between', 'space-evenly'].includes(alignProp)) {
         return unsupported;
       }
 
@@ -214,7 +216,7 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
         ...props
       } = this.props;
 
-      const layout = this.layout;
+      const { layout } = this;
 
       // don't pass on layit props
       Object.keys(Layit.propTypes).forEach(name => delete props[name]);
