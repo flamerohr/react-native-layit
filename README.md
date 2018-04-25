@@ -16,7 +16,7 @@ Following the philosophy of `react-native-row`, this library helps keep unnecess
 
 ## Installation
 
-```bash
+```sh
 npm install react-native-layit
 ```
 
@@ -146,8 +146,8 @@ Here is a list of available props for the layout
 | `reverse`     |        boolean       | `false` | Reverses the direction of `row` or `col` making the style `flexDirection: 'row-reverse'` or `flexDirection: 'column-reverse'` respectively, so will need one of those enabled to work |
 | `alignX`      |         enum         |         | Sets either `justifyContent` for `row` or `alignItems` for `col` with the enum value. If neither `row` or `col` is defined this prop will not take effect |
 | `alignY`      |         enum         |         | Same with `alignX` but sets `justifyContent` for col or `alignItems` for `row` |
-| `width`       |        number        |         | Set the width, could interfer with `flex` behaviours if used together |
-| `height`      |        number        |         | Set the height, could interfer with `flex` behaviours if used together |
+| `width`       | number/array[number] |         | Set the width, could interfer with `flex` behaviours if used together. More details about min and max value below |
+| `height`      | number/array[number] |         | Set the height, could interfer with `flex` behaviours if used together. More details about min and max value below |
 | `margin`      | number/array[number] |         | Sets margin for top, bottom, left and right. Follows CSS rules for `margin` |
 | `padding`     | number/array[number] |         | Sets padding for top, bottom, left and right. Follows CSS rules for `padding` |
 | `viewProps`   |        object        |   `{}`  | A set of props to pass on to the `Component` (default `View`), the layout passes through most props except ones listed in this table. So if you require any props already used by the layout, this prop is the way to declare them. Props declared here take precedence over "pass through" props |
@@ -168,6 +168,34 @@ Here is a list of available props for the layout
 | `space-between` |                 | :no_entry_sign: | :no_entry_sign: |                 |
 | `stretch`       | :no_entry_sign: |                 |                 | :no_entry_sign: |
 
+### Using `height` and `width`
+
+Setting width and height is quite straight forward, setting them directly with `width="20"` and `height="10"`.
+
+If you want to set `min` and/or `max` for height or width, in stylesheet you'd need to define each separately.
+
+I had found that quite verbose for this library and pollutes the property list a fair amount, so instead I've extended the `width` and `height` property to cleanly allow handling `min` and `max` easily.
+
+To define `minWidth`, `width` and `maxWidth` you'll need to define an array for the `width` property in the format: `[minWidth, width, maxWidth]`, and the same applies for `height`.
+
+The values provided will need to be a valid number or string, otherwise it will error or be ignored altogether.
+
+An example of the feature:
+
+```jsx
+<Layit width={[30, "60%", 80]} />
+```
+
+This means the following styles are applied:
+
+```js
+{
+  minWidth: 30,
+  width: "60%",
+  maxWidth: 80,
+}
+```
+
 ### Using `margin` and `padding`
 
 Here is a table for what styles are applied when you use the `margin` and/or `padding`.
@@ -187,7 +215,8 @@ This behaves like the CSS rules, so if you're familiar with that, you probably a
 If there's a `style` prop which has a rule conflicting with a layout prop, the style will take precendence. This also applies for `viewProps`, if viewProps contains a style property and there's also a style prop, the viewProps style will take precedence.
 
 So the hierarchy goes like this
-```
+
+```md
  viewProps.style > style > layoutProps
 ```
 
