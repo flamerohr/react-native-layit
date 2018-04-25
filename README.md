@@ -34,7 +34,7 @@ import { View, Text } from 'react-native';
 import Layit from 'react-native-layit';
 
 const Box = (props) => (
-  <Layit width="50" height="50" />
+  <Layit width="50" height="50" {...props} />
 );
 
 export default () => (
@@ -56,8 +56,8 @@ Now, let's get to what this library is for.
 Say we wanted things to align horizontally instead of vertically, we can do this without `Layit`.
 
 ```jsx
-const Box = ({ style }) => (
-  <View style={[{ width: 50, height: 50 }, style]}>
+const Box = ({ style, ...props }) => (
+  <View style={[{ width: 50, height: 50 }, style]} {...props}>
 );
 
 export default () => (
@@ -115,14 +115,14 @@ Any style or layout props used will be passed to `SuccessButtonComponent` throug
 For example below.
 
 ```jsx
-const SuccessButtonComponent = (props) => {
+const SuccessButtonComponent = ({ style, ...props }) => {
   const myStyles = {
     // style logic here
     flexDirection: 'column',
     backgroundColor: 'green',
   };
   return (
-    <View style={[myStyles, props.style]}>
+    <View style={[myStyles, style]} {...props}>
       <Text>It's a success!</Text>
       <Text>Lets have fun.</Text>
     </View>
