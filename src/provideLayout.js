@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View as RNView, ViewPropTypes, StyleSheet } from 'react-native';
+import hash from 'object-hash';
 import { calculate as getGaps, propTypes as gapsPropTypes } from './gapsHelper';
 import { calculate as getDimensions, propTypes as dimensionsPropTypes } from './dimensionsHelper';
-import hash from 'object-hash';
 
 const alignProps = PropTypes.oneOf([
   'flex-start',

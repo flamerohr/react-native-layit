@@ -1,9 +1,9 @@
-/* global describe, test, expect, beforeEach */
+/* global jest, describe, test, expect, beforeEach */
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import renderer from 'react-test-renderer';
-import provideLayout, { clearCache } from '../provideLayout';
 import hash from 'object-hash';
+import provideLayout, { clearCache } from '../provideLayout';
 
 describe('provideLayout', () => {
   let Layout = null;
@@ -22,8 +22,8 @@ describe('provideLayout', () => {
     });
 
     test('clearing cache causes style indexer to be called again', () => {
+      /* eslint-disable no-unused-expressions */
       const instance = new Layout({ row: true, cacheStyles: true });
-
       instance.layout;
       instance.layout;
 
@@ -41,6 +41,7 @@ describe('provideLayout', () => {
       instance.layout;
 
       expect(mockStyleIndexer.mock.calls.length).toBe(2);
+      /* eslint-enable no-unused-expressions */
     });
   });
 

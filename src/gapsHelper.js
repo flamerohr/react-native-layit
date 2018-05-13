@@ -6,7 +6,7 @@ export const calculate = (type, value) => {
   }
   if (typeof value === 'number' || typeof value === 'string') {
     const gap = Number(value || 0);
-    if (isNaN(gap)) {
+    if (Number.isNaN(gap)) {
       return {};
     }
     return {
@@ -22,7 +22,7 @@ export const calculate = (type, value) => {
 
   if (filtered.length === 0 ||
     filtered.length > 4 ||
-    filtered.findIndex(item => isNaN(item)) !== -1
+    filtered.findIndex(item => Number.isNaN(item)) !== -1
   ) {
     return {};
   }
