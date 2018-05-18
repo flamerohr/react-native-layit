@@ -5,6 +5,8 @@ import hash from 'object-hash';
 import { calculate as getGaps, propTypes as gapsPropTypes } from './gapsHelper';
 import { calculate as getDimensions, propTypes as dimensionsPropTypes } from './dimensionsHelper';
 
+const empty = {};
+
 const alignProps = PropTypes.oneOf([
   'flex-start',
   'center',
@@ -16,6 +18,7 @@ const alignProps = PropTypes.oneOf([
   'stretch',
 ]);
 
+let key = null;
 let styles = {};
 
 export const clearCache = () => {
@@ -50,13 +53,23 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       reverse: false,
       alignX: null,
       alignY: null,
-      viewProps: {},
+      viewProps: empty,
       cacheStyles: true,
       width: null,
       height: null,
     };
 
     get layout() {
+      if (this.props.cacheStyles) {
+        const { keyProps } = this;
+
+        key = hash(keyProps);
+
+        if (typeof styles[key] !== 'undefined') {
+          return styles[key];
+        }
+      }
+
       const layout = {
         ...this.margins,
         ...this.paddings,
@@ -68,20 +81,29 @@ export default function provideLayout(View = RNView, styleIndexer = StyleSheet.c
       if (!this.props.cacheStyles) {
         return layout;
       }
-      const key = hash(layout);
 
-      if (!styles[key]) {
-        const newStyle = styleIndexer({
-          layout,
-        });
+      const newStyle = styleIndexer({
+        layout,
+      });
 
-        styles = {
-          ...styles,
-          [key]: newStyle.layout,
-        };
-      }
-
+      styles = {
+        ...styles,
+        [key]: newStyle.layout,
+      };
       return styles[key];
+    }
+
+    get keyProps() {
+      return Object.keys(Layit.defaultProps).reduce((prev, prop) => {
+        const value = this.props[prop];
+        if (value === Layit.defaultProps[prop]) {
+          return prev;
+        }
+        return {
+          ...prev,
+          [prop]: value,
+        };
+      }, {});
     }
 
     get heights() {
